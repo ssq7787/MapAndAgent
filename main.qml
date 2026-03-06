@@ -1,8 +1,10 @@
-import QtQuick
+﻿import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
+import MapAndAgent 1.0
 
 Window {
+    id: rootWindow
     // ==================== 窗口属性 ====================
     readonly property int desktopWidth: 1280
     readonly property int desktopHeight: 720
@@ -48,25 +50,37 @@ Window {
                     anchors.margins: 10
                     spacing: 10
 
-                    // 地图按钮 - 直接用 Button
+                    // 地图按钮
                     Button {
                         text: "地图"
                         checked: currentIndex === 0
-                        onClicked: currentIndex = 0
+                        onClicked:
+                        {
+                            console.log("地图按钮被点击");
+                            currentIndex = 0
+                        }
                         Layout.fillWidth: true
                         Layout.preferredHeight: 50
                     }
                     Button {
                         text: "代理"
                         checked: currentIndex === 1
-                        onClicked: currentIndex = 1
+                        onClicked:
+                        {
+                            console.log("代理按钮被点击");
+                            currentIndex = 1
+                        }
                         Layout.fillWidth: true
                         Layout.preferredHeight: 50
                     }
                     Button {
                         text: "设置"
                         checked: currentIndex === 2
-                        onClicked: currentIndex = 2
+                        onClicked:
+                        {
+                            console.log("设置按钮被点击");
+                            currentIndex = 2
+                        }
                         Layout.fillWidth: true
                         Layout.preferredHeight: 50
                     }
@@ -77,16 +91,18 @@ Window {
             Rectangle {
                 Layout.fillHeight: true
                 Layout.fillWidth: true
-                color: "#1e1e1e"
+                color: "#4f4f4f"
 
                 StackLayout {
                     anchors.fill: parent
-                    currentIndex: currentIndex
+                    currentIndex: rootWindow.currentIndex
 
-                    PageMap {}
-                    PageAgent {}
-                    PageSettings {}
+                    MapPage {}
+                    AgentPage {}
+                    SettingsPage {}
+                    onCurrentIndexChanged: console.log("StackLayout 索引变为", currentIndex)
                 }
+
             }
         }
 
@@ -128,40 +144,6 @@ Window {
                     Layout.preferredHeight: 40
                 }
             }
-        }
-    }
-
-    // ==================== 页面组件 ====================
-    component PageMap: Rectangle {
-        color: "#2d2d30"
-
-        Text {
-            text: "地图页面"
-            color: "white"
-            font.pixelSize: 24
-            anchors.centerIn: parent
-        }
-    }
-
-    component PageAgent: Rectangle {
-        color: "#252526"
-
-        Text {
-            text: "代理页面"
-            color: "white"
-            font.pixelSize: 24
-            anchors.centerIn: parent
-        }
-    }
-
-    component PageSettings: Rectangle {
-        color: "#1e1e1e"
-
-        Text {
-            text: "设置页面"
-            color: "white"
-            font.pixelSize: 24
-            anchors.centerIn: parent
         }
     }
 }
