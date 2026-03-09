@@ -5,7 +5,14 @@ project(MapAndAgent VERSION 0.1 LANGUAGES CXX)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(Qt6 6.5 COMPONENTS Quick Positioning REQUIRED)
+# 检测平台，选择对应的 Qt 模块
+find_package(Qt6 6.8 COMPONENTS Quick Positioning WebView REQUIRED)
+set(QT_LIBRARIES Qt6::Quick Qt6::Positioning Qt6::WebView)
+
+# Android 配置 - 必须在这里设置
+if(CMAKE_SYSTEM_NAME STREQUAL "Android")
+    set(ANDROID_PACKAGE_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/android CACHE PATH "Android package source directory")
+endif()
 
 qt_add_executable(appMapAndAgent
     main.cpp
@@ -21,11 +28,7 @@ qt_add_qml_module(appMapAndAgent
         SettingsPage.qml
 )
 
-# Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
-# If you are developing for iOS or macOS you should set an
-# explicit, fixed bundle identifier manually though.
 set_target_properties(appMapAndAgent PROPERTIES
-#    MACOSX_BUNDLE_GUI_IDENTIFIER com.example.appMapAndAgent
     MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
     MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
     MACOSX_BUNDLE TRUE
@@ -33,7 +36,7 @@ set_target_properties(appMapAndAgent PROPERTIES
 )
 
 target_link_libraries(appMapAndAgent
-    PRIVATE Qt6::Quick Qt6::Positioning)
+    PRIVATE ${QT_LIBRARIES})
 
 include(GNUInstallDirs)
 install(TARGETS appMapAndAgent
