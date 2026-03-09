@@ -1,7 +1,7 @@
 ﻿import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
-import MapAndAgent 1.0
+// import MapAndAgent 1.0
 
 Window {
     id: rootWindow

@@ -125,6 +125,7 @@ cmake --build build-ios
 | `Timer` | `import QtQuick` (内置) |
 | `Qt.platform.os` | `import QtQuick` (内置) |
 | `Screen.width/height` | `import QtQuick` (内置) |
+| `WebView` | `import QtWebView` |
 
 ### 1. 组件导入
 ```qml
